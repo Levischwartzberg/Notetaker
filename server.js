@@ -34,7 +34,7 @@ app.post("/api/notes", (req, res) => {
     notes.push(note);
     console.log(notes);
     res.json(note);
-    let writeStream = fs.createWriteStream('db/db.txt');
+    let writeStream = fs.createWriteStream('db/db.json');
     writeStream.write(JSON.stringify(notes), 'utf8');
     writeStream.on('finish', () => {
       console.log('wrote all data to file');
