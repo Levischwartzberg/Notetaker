@@ -47,6 +47,25 @@ app.post("/api/notes", (req, res) => {
     });
 }) 
 
+//new
+app.post("/api/editnote", (req, res) => {
+    // console.log(req.body)
+    let note = req.body;
+    console.log(note);
+    for (i=0; i < notes.length; i++) {
+        if (notes[i].id === note.id) {
+            notes.splice(i,1,note);
+        }
+    }
+    let writeStream = fs.createWriteStream('db/db.json');
+    writeStream.write(JSON.stringify(notes), 'utf8');
+    writeStream.on('finish', () => {
+      console.log('wrote all data to file');
+    });
+    res.json(note);
+}) 
+//end
+
 //delete
 app.delete("/api/notes/:id", (req, res) => {
     let id;
