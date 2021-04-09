@@ -42,6 +42,19 @@ const saveNote = (note) =>
     body: JSON.stringify(note),
   });
 
+//new
+let edit = false;
+let editId = "";
+const editNote = (note) =>
+  fetch('/api/editnote', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(note),
+  });
+//end
+
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`, {
     method: 'DELETE',
@@ -55,15 +68,18 @@ const renderActiveNote = () => {
 
   if (activeNote.id) {
     // commented out so that notes can be edited later, a much better user experience
-    noteTitle.setAttribute('readonly', true);
-    noteText.setAttribute('readonly', true);
+    // noteTitle.setAttribute('readonly', true);
+    // noteText.setAttribute('readonly', true);
     noteTitle.value = activeNote.title;
     noteText.value = activeNote.text;
+    edit = true;
+    editId = activeNote.id;
   } else {
     noteTitle.removeAttribute('readonly');
     noteText.removeAttribute('readonly');
     noteTitle.value = '';
     noteText.value = '';
+    edit = false;
   }
 };
 
@@ -72,10 +88,21 @@ const handleNoteSave = () => {
     title: noteTitle.value,
     text: noteText.value,
   };
-  saveNote(newNote).then(() => {
-    getAndRenderNotes();
-    renderActiveNote();
-  });
+  if (edit === false) {
+    console.log("save");
+    saveNote(newNote).then(() => {
+      getAndRenderNotes();
+      renderActiveNote();
+    });
+  }
+  else {
+    newNote.id = editId;
+    console.log("edit");
+    editNote(newNote).then(() => {
+      getAndRenderNotes();
+      renderActiveNote();
+    });
+  }
 };
 
 // Delete the clicked note
