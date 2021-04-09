@@ -29,8 +29,9 @@ html, body {
 }
 
 .note-title {
-  height: 50px;
+  height: 80px;
   margin-top: 13px;
+  margin-bottom: 13px;
   font-size: 3rem;
 }
 
