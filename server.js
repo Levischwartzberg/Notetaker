@@ -27,7 +27,7 @@ app.get('/api/notes', (req, res) => {
     fs.readFile('db/db.json', (err, data) => {
         if (err) throw err;
         let note = JSON.parse(data);
-        console.log(note);
+        //console.log(note);
         res.json(note);
     });
     // res.json(notes);
@@ -54,6 +54,11 @@ app.delete("/api/notes/:id", (req, res) => {
     fs.readFile('db/db.json', (err, data) => {
         if (err) throw err;
         let note = JSON.parse(data);
+        for (i=0; i<notes.length; i++) {
+            if (req.params.id === notes[i].id) {
+                notes.splice(i,1);
+            }
+        }
         for (i=0; i<note.length; i++) {
             if (req.params.id === note[i].id) {
                 note.splice(i,1);
