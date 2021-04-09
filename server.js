@@ -30,6 +30,7 @@ app.get('/api/notes', (req, res) => {
 app.post("/api/notes", (req, res) => {
     // console.log(req.body)
     let note = req.body;
+    note.id = generateUniqueId({length: 16, useLetters: true});
     notes.push(note);
     console.log(notes);
     res.json(note);
