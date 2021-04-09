@@ -24,7 +24,6 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api/notes', (req, res) => {
-    console.log("test");
     fs.readFile('db/db.json', (err, data) => {
         if (err) throw err;
         let note = JSON.parse(data);
@@ -47,5 +46,25 @@ app.post("/api/notes", (req, res) => {
       console.log('wrote all data to file');
     });
 }) 
+
+//delete
+app.delete("/api/notes/:id", (req, res) => {
+    let id;
+    console.log(req.params.id);
+    fs.readFile('db/db.json', (err, data) => {
+        if (err) throw err;
+        let note = JSON.parse(data);
+        for (i=0; i<note.length; i++) {
+            if (req.params.id === note[i].id) {
+                note.splice(i,1);
+            }
+        }
+        fs.writeFile('db/db.json', JSON.stringify(note), function (err) {
+            if (err) return console.log(err);
+            console.log(note);
+          });
+    });
+    res.end();
+})
 
 app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
