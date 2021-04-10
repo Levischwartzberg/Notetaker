@@ -100,7 +100,7 @@ const handleNoteSave = () => {
     console.log("edit");
     editNote(newNote).then(() => {
       getAndRenderNotes();
-      renderActiveNote();
+      hide(saveNoteBtn);
     });
   }
 };
